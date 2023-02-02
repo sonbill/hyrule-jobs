@@ -1,85 +1,67 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+  <div class="app">
+    <div class="flex justify-center items-center space-x-5">
+      <img src="@/assets/heart.svg" alt="heart" class="w-[60px]" />
+      <h1 class="title text-3xl font-bold">Hyrule Jobs</h1>
     </div>
-  </header>
-
-  <RouterView />
+    <!-- HEADER BUTTONS -->
+    <div class="text-center mt-10">
+      <button @click="handleClick('title')" class="p-3 border rounded-md mx-5">
+        Order by Title
+      </button>
+      <button @click="handleClick('salary')" class="p-3 border rounded-md mx-5">
+        Order by Salary
+      </button>
+      <button
+        @click="handleClick('location')"
+        class="p-3 border rounded-md mx-5"
+      >
+        Order by Location
+      </button>
+    </div>
+    <JobsList :jobs="jobs" :order="order" />
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
+<script lang="ts">
+import JobsList from "./components/JobsList.vue";
+import type Job from "./types/Job";
+import type OrderTerm from "./types/OrderTerm";
+import { RouterLink, RouterView } from "vue-router";
+import { defineComponent, reactive, ref, toRefs } from "vue";
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+export default defineComponent({
+  name: "App",
+  components: { JobsList },
+  setup() {
+    const jobs = ref<Job[]>([
+      { title: "Farm Worker", location: "Ranch", salary: 10000, id: "1" },
+      { title: "Quaryman", location: "Death Mountain", salary: 30000, id: "2" },
+      {
+        title: "Flute Player",
+        location: "The Lost Woods",
+        salary: 1000,
+        id: "3",
+      },
+      { title: "Fisher man", location: "Lake Hylia", salary: 20000, id: "4" },
+      {
+        title: "Prison Guard",
+        location: "Gerudo Valley",
+        salary: 25000,
+        id: "5",
+      },
+    ]);
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
+    const order = ref<OrderTerm>("title");
+    const handleClick = (term: OrderTerm) => {
+      order.value = term;
+      console.log(term);
+    };
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
+    return { jobs, order, handleClick };
+  },
+});
+</script>
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
+<style>
 </style>

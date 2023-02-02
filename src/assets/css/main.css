@@ -1,0 +1,19 @@
+@import './base.css';
+
+#app {
+  margin: 0 auto;
+  padding: 2rem;
+
+  font-weight: normal;
+}
+
+
+@font-face {
+  font-family: HyliaSerif;
+  src: url("HyliaSerifBeta-Regular.otf") format("opentype");
+}
+
+.title {
+  font-family: HyliaSerif;
+  letter-spacing: 4px;
+}
